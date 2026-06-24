@@ -15,4 +15,3 @@ class UsersInformationModel(Base):
     maternal_surname = Column(String(50))
     cell_phone = Column(String(12))
     last = Column(Boolean,default=True)
-

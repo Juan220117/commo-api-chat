@@ -10,3 +10,4 @@ class UsersModel(Base):
     username = Column(String(50))
     password = Column(String(100))
     email = Column(String(100))
+

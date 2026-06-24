@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import Any
 from models.UsersInfoModel import UsersInformationModel
 
-class InformacionPersonalRepository(object):
+class UserInforRepository(object):
     """Query class """
     def __init__(self,session:Session) -> None:
         self.session = session
@@ -12,3 +12,4 @@ class InformacionPersonalRepository(object):
         """Query to save personal information"""
         self.session.add(data)
         self.session.flush()
+
