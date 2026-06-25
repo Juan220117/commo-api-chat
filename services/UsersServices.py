@@ -2,7 +2,7 @@
 from typing import Any
 #Repositories
 from repositories.UsersRepository import UsersRepository
-from repositories.UsersInfoRepository import InformacionPersonalRepository
+from repositories.UsersInfoRepository import UserInformationRepository
 #Models
 from models.UsersModel import UsersModel
 from models.UsersInfoModel import UsersInformationModel
@@ -17,7 +17,7 @@ class UserService(object):
     def __init__(self,uow):
         self.uow = uow
         self.user_repository = UsersRepository(uow.session)
-        self.informacion_repository = InformacionPersonalRepository(uow.session)
+        self.informacion_repository = UserInformationRepository(uow.session)
 
     def create_user(self,username:str,password:str,email:str,personal_information:dict[str,Any]) -> dict[str,Any]:
         """Funcion para crear usuario"""
