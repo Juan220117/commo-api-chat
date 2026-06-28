@@ -16,11 +16,11 @@ class TestDecoratorResponse(BaseModel):
     message:str
 
 @validate_request(TestDecoratorRequest)
-def main(event:dict[str,Any],_,validated_data: TestDecoratorRequest):
+def main(data:dict[str,Any]):
     try:
-        body = event.get("body")
-        logger.warning(event)
-        logger.warning(body.get("numero1"))
+        #import pdb; pdb.set_trace()
+        logger.warning(data)
+        logger.warning(data.numero1)
         
         response = TestDecoratorResponse(
             message="HOla"
@@ -39,6 +39,5 @@ if __name__ == '__main__':
                     #"numero2":2
                 }
             }
-            ,None
             )
         )

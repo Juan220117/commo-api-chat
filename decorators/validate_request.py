@@ -5,6 +5,7 @@ from datetime import datetime
 from typing import Type, Callable, Any, Dict, Optional
 from pydantic import BaseModel, ValidationError,Field
 from responses.response import success_response,error_response,format_response
+from loguru import logger
 
 class ErrorResponse(BaseModel):
     error: str
@@ -22,7 +23,7 @@ def validate_request(schema_class: Type[BaseModel], require_body: bool = True):
     """
     def decorator(func: Callable) -> Callable:
         @functools.wraps(func)
-        def wrapper(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
+        def wrapper(event: Dict[str, Any]) -> Dict[str, Any]:
             try:
                 # Extract the body of the application
                 body = event.get('body', '{}')
@@ -43,13 +44,14 @@ def validate_request(schema_class: Type[BaseModel], require_body: bool = True):
                     return error_response('Request body is required', 400)
                 
                 # Validate with pydantic
+                #import pdb; pdb.set_trace()
                 validated_data = schema_class(**body)
                 
                 # Si hay validación adicional, se puede hacer aquí
                 # Ejemplo: check_rate_limit(validated_data.user_id)
                 
                 # Llamar a la función con los datos validados
-                result = func(event, context, validated_data)
+                result = func(validated_data)
                 
                 # Si la función ya devuelve una respuesta formateada, usarla
                 if isinstance(result, dict) and 'statusCode' in result:
@@ -84,7 +86,7 @@ def validate_request(schema_class: Type[BaseModel], require_body: bool = True):
                 return error_response(
                     'Internal server error',
                     500,
-                    {'error': str(e)} if context.get('debug', False) else None
+                    {'error': str(e)}
                 )
         
         return wrapper
