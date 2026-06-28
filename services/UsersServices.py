@@ -51,12 +51,12 @@ class UserService(object):
         except Exception as error:
             logger.error(f"Error en create user : {error}")
     
-    def login_user(self,username:str,password:str) -> bool:
+    def login_user(self,username:str,password:str) -> tuple[bool,str]:
         try:
             #1.-Get database record.
             record = self.user_repository.get_user_by_username(username=username)
             if not record:
-                return f"User {username} not found"
+                return False,f"User {username} not found"
             
             #2.- Validate password
             validate = PepperAvancedDinamycs()._verify_login(
@@ -66,8 +66,8 @@ class UserService(object):
                 email=record.email
             )
             if not validate:
-                return f"User {username} incorrect password"
+                return False,f"User {username} incorrect password"
             
-            return True
+            return True,f"User {username} logged in successfully"
         except Exception as error:
             logger.error(f"Erro in login_user : {error}")

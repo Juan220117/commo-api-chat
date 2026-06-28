@@ -6,7 +6,7 @@ from unit_of_work.main_uow import get_uow
 from services.UsersServices import UserService
 
 #Test
-from utils.time_decorator import medir_tiempo
+from decorators.time_decorator import medir_tiempo
 
 @medir_tiempo
 def create_user():
