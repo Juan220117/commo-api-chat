@@ -18,6 +18,10 @@ class TestDecoratorResponse(BaseModel):
 @validate_request(TestDecoratorRequest)
 def main(event:dict[str,Any],_,validated_data: TestDecoratorRequest):
     try:
+        body = event.get("body")
+        logger.warning(event)
+        logger.warning(body.get("numero1"))
+        
         response = TestDecoratorResponse(
             message="HOla"
         )
